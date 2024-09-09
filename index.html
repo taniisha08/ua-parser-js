@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Detector with AngularJS and UA-Parser-JS</title>
+    
+    <!-- Load AngularJS from a CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- Load UA-Parser-JS from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/1.0.2/ua-parser.min.js"></script>
+
+    <!-- Add custom CSS for styling -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #4a90e2;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            font-size: 1.1em;
+            border-bottom: 1px solid #ddd;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            li {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.3em;
+            }
+
+            li {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body ng-app="deviceApp" ng-controller="DeviceController">
+
+    <div class="container">
+        <h1>Device Information</h1>
+        <ul>
+            <li><strong>Browser:</strong> {{ deviceInfo.browser.name }} {{ deviceInfo.browser.version }}</li>
+            <li><strong>Operating System:</strong> {{ deviceInfo.os.name }} {{ deviceInfo.os.version }}</li>
+            <li><strong>Device Type:</strong> {{ deviceInfo.device.type || 'desktop' }}</li>
+            <li><strong>Device Vendor:</strong> {{ deviceInfo.device.vendor || 'N/A' }}</li>
+            <li><strong>Device Model:</strong> {{ deviceInfo.device.model || 'N/A' }}</li>
+            <li><strong>CPU Architecture:</strong> {{ deviceInfo.cpu.architecture || 'Unknown' }}</li>
+        </ul>
+    </div>
+
+    <script>
+        // Define the AngularJS application
+        var app = angular.module('deviceApp', []);
+
+        // Define a controller
+        app.controller('DeviceController', function($scope) {
+            // Initialize UA-Parser
+            var parser = new UAParser();
+            
+            // Get the device information and bind it to the scope
+            $scope.deviceInfo = parser.getResult();
+        });
+    </script>
+    
+</body>
+</html>
